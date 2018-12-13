@@ -15,4 +15,9 @@ public class RemoteFunc {
     public String add(String a, String b) {
         return a + b;
     }
+
+    @Register
+    public String  save(){
+        return "shabi??";
+    }
 }
