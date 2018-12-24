@@ -34,6 +34,11 @@ public class CftpHandler extends ChannelInboundHandlerAdapter {
     private List<HandlerMapping> handlerMappingList;
 
     @Override
+    public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+        logger.info("client register {}", ctx.name());
+    }
+
+    @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         CftpRequest cftpRequest = (CftpRequest) msg;
         logger.info("CftpHandler read msg from client :" + cftpRequest);

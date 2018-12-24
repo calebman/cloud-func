@@ -5,6 +5,7 @@ import com.cloudfunc.handle.HandlerAdapter;
 import com.cloudfunc.method.CftpMethod;
 import com.cloudfunc.protocol.CftpRequest;
 import com.cloudfunc.protocol.CftpResponse;
+import com.cloudfunc.protocol.CftpStatus;
 
 import java.lang.reflect.Method;
 
@@ -28,7 +29,7 @@ public class CftpHandlerAdapter implements HandlerAdapter {
             return CftpResponse.buildSuccess(result);
         } catch (Exception e) {
             e.printStackTrace();
-            return CftpResponse.buildError(e);
+            return CftpResponse.buildError(CftpStatus.SERVER_ERROR.getStatusCode(), e.getMessage());
         }
     }
 }
