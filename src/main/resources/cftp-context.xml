@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 构造函数工厂 添加内置函数支持 -->
+    <bean id="cftpMethodFactory" class="com.cloudfunc.factory.impl.CftpMethodFactory">
+        <constructor-arg>
+            <list>
+                <bean class="com.cloudfunc.fun.InternalFunc"></bean>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- 构造处理分发器 -->
+    <bean id="cftpHandler" class="com.cloudfunc.CftpHandler">
+        <property name="handlerAdapterList">
+            <list>
+                <bean class="com.cloudfunc.handle.impl.CftpHandlerAdapter"></bean>
+            </list>
+        </property>
+        <property name="handlerMappingList">
+            <list>
+                <bean class="com.cloudfunc.handle.impl.CftpHandlerMapping">
+                    <constructor-arg>
+                        <ref bean="cftpMethodFactory"></ref>
+                    </constructor-arg>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 构造netty管道 -->
+    <bean id="cftpPipelineInitializer" class="com.cloudfunc.pipeline.CftpPipelineInitializer">
+        <constructor-arg>
+            <ref bean="cftpHandler"></ref>
+        </constructor-arg>
+    </bean>
+</beans>

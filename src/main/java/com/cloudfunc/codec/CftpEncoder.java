@@ -1,18 +1,19 @@
 package com.cloudfunc.codec;
 
 import com.cloudfunc.protocol.CftpResponse;
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.MessageToByteEncoder;
 
 /**
  * @author chenjianhui
- * @description 编码器
- * @date 2018/12/13
+ * @description
+ * @date 2018/12/14
  */
-public interface CftpEncoder {
-    /**
-     * 编码返回给客户端
-     *
-     * @param cftpResponse 响应体
-     * @return 编码后的响应信息
-     */
-    String encode(CftpResponse cftpResponse);
+public class CftpEncoder extends MessageToByteEncoder<CftpResponse> {
+
+    @Override
+    protected void encode(ChannelHandlerContext ctx, CftpResponse msg, ByteBuf out) throws Exception {
+        out.writeBytes((msg.toString() + "\n").getBytes());
+    }
 }

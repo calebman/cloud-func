@@ -18,11 +18,4 @@ public interface HandlerMapping {
      * @return 云函数
      */
     CftpMethod mapping(CftpRequest request) throws CftpException;
-
-    /**
-     * 注册云函数
-     *
-     * @param cftpMethod 云函数对象
-     */
-    void register(CftpMethod cftpMethod);
 }

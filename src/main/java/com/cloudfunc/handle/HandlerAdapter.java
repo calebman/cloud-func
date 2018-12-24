@@ -12,12 +12,21 @@ import com.cloudfunc.protocol.CftpResponse;
  */
 public interface HandlerAdapter {
 
+
     /**
-     * 调用云函数
+     * 给定一个处理器实例，判断此实例是否被此适配器支持，每个适配器只支持一种类型的处理器
      *
-     * @param cftpMethod  云函数对象
-     * @param cftpRequest 请求体
-     * @return 响应内容
+     * @param handler 处理器实例
+     * @return 此对象是否可以使用给定的处理程序
      */
-    CftpResponse handle(CftpMethod cftpMethod, CftpRequest cftpRequest) throws CftpException;
+    boolean supports(CftpMethod handler);
+
+    /**
+     * 使用给定的处理程序来处理此请求
+     *
+     * @param cftpRequest 请求体
+     * @param handler     处理程序
+     * @return 一个相应对象，包括结果码,调用结果等信息
+     */
+    CftpResponse handle(CftpRequest cftpRequest, CftpMethod handler) throws CftpException;
 }

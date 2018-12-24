@@ -17,7 +17,7 @@ public class RemoteFunc {
     }
 
     @Register
-    public String  save(){
+    public String save() {
         return "shabi??";
     }
 }

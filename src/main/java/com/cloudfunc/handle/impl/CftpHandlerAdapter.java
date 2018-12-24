@@ -1,5 +1,7 @@
-package com.cloudfunc.handle;
+package com.cloudfunc.handle.impl;
 
+import com.cloudfunc.exception.CftpException;
+import com.cloudfunc.handle.HandlerAdapter;
 import com.cloudfunc.method.CftpMethod;
 import com.cloudfunc.protocol.CftpRequest;
 import com.cloudfunc.protocol.CftpResponse;
@@ -14,10 +16,15 @@ import java.lang.reflect.Method;
 public class CftpHandlerAdapter implements HandlerAdapter {
 
     @Override
-    public CftpResponse handle(CftpMethod cftpMethod, CftpRequest cftpRequest) {
+    public boolean supports(CftpMethod handler) {
+        return true;
+    }
+
+    @Override
+    public CftpResponse handle(CftpRequest cftpRequest, CftpMethod handler) throws CftpException {
         try {
-            Method method = cftpMethod.getMethod();
-            Object result = method.invoke(cftpMethod.getObj(), cftpRequest.getParams());
+            Method method = handler.getMethod();
+            Object result = method.invoke(handler.getObj(), cftpRequest.getParams());
             return CftpResponse.buildSuccess(result);
         } catch (Exception e) {
             e.printStackTrace();
