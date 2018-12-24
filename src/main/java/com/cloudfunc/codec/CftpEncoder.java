@@ -14,6 +14,6 @@ public class CftpEncoder extends MessageToByteEncoder<CftpResponse> {
 
     @Override
     protected void encode(ChannelHandlerContext ctx, CftpResponse msg, ByteBuf out) throws Exception {
-        out.writeBytes((msg.toString() + "\n").getBytes());
+        out.writeBytes((msg.toResponse()).getBytes());
     }
 }

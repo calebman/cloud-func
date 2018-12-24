@@ -1,5 +1,7 @@
 package com.cloudfunc.protocol;
 
+import com.cloudfunc.exception.CftpException;
+
 /**
  * @author chenjianhui
  * @description Cftp协议响应体
@@ -9,7 +11,11 @@ public class CftpResponse {
     /**
      * 结果码
      */
-    private CftpStatus cftpStatus;
+    private Integer statusCode;
+    /**
+     * 结果信息
+     */
+    private String statusMsg;
     /**
      * 响应数据
      */
@@ -23,19 +29,21 @@ public class CftpResponse {
      */
     public static CftpResponse buildSuccess(Object data) {
         CftpResponse response = new CftpResponse();
-        response.setCftpStatus(CftpStatus.OK);
+        response.setStatusCode(CftpStatus.OK.getStatusCode());
+        response.setStatusMsg(CftpStatus.OK.getStatusMsg());
         response.setData(data);
         return response;
     }
 
     public static CftpResponse buildError(CftpStatus cftpStatus) {
         CftpResponse response = new CftpResponse();
-        response.setCftpStatus(cftpStatus);
+        response.setStatusCode(cftpStatus.getStatusCode());
+        response.setStatusMsg(cftpStatus.getStatusMsg());
         return response;
     }
 
-    public static CftpResponse buildError(Exception ex) {
-        return buildError(ex.getMessage());
+    public static CftpResponse buildError(CftpException ex) {
+        return buildError(ex.getCftpStatus().getStatusCode(), ex.getMessage());
     }
 
     /**
@@ -44,21 +52,13 @@ public class CftpResponse {
      * @param errorMsg 异常信息
      * @return 响应体
      */
-    public static CftpResponse buildError(String errorMsg) {
+    public static CftpResponse buildError(Integer statusCode, String errorMsg) {
         CftpResponse response = new CftpResponse();
-        CftpStatus cftpStatus = CftpStatus.SERVER_ERROR;
-        cftpStatus.setStatusMsg(errorMsg);
-        response.setCftpStatus(cftpStatus);
+        response.setStatusMsg(errorMsg);
+        response.setStatusCode(statusCode);
         return response;
     }
 
-    public CftpStatus getCftpStatus() {
-        return cftpStatus;
-    }
-
-    public void setCftpStatus(CftpStatus cftpStatus) {
-        this.cftpStatus = cftpStatus;
-    }
 
     public Object getData() {
         return data;
@@ -68,11 +68,36 @@ public class CftpResponse {
         this.data = data;
     }
 
+    public Integer getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(Integer statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    public String getStatusMsg() {
+        return statusMsg;
+    }
+
+    public void setStatusMsg(String statusMsg) {
+        this.statusMsg = statusMsg;
+    }
+
     @Override
     public String toString() {
         return "CftpResponse{" +
-                "cftpStatus=" + cftpStatus +
+                "statusCode=" + statusCode +
+                ", statusMsg='" + statusMsg + '\'' +
                 ", data=" + data +
                 '}';
+    }
+
+    public String toResponse() {
+        if (getStatusCode() == CftpStatus.OK.getStatusCode()) {
+            return String.format("%s %s\n\n%s\n", CftpStatus.OK.getStatusCode(), CftpStatus.OK.getStatusMsg(), getData());
+        } else {
+            return String.format("%s %s\n\n", getStatusCode(), getStatusMsg());
+        }
     }
 }

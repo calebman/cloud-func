@@ -56,7 +56,7 @@ public class CftpDecoder extends ByteToMessageDecoder {
             cftpRequest.setParams(params);
             out.add(cftpRequest);
         } else {
-            throw new CftpException(CftpStatus.CLIENT_ERROR, "command invalid");
+            ctx.fireExceptionCaught(new CftpException(CftpStatus.CLIENT_ERROR, "command invalid"));
         }
     }
 

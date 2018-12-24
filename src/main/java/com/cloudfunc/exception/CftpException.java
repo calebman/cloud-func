@@ -23,7 +23,7 @@ public class CftpException extends Exception {
     }
 
     public CftpException(CftpStatus cftpStatus, String errMsg) {
-        cftpStatus.setStatusMsg(errMsg);
+        super(errMsg);
         this.cftpStatus = cftpStatus;
     }
 
