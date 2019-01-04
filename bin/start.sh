@@ -1,4 +1,5 @@
 #!/bin/sh
+sh ./stop.sh
 APP_NAME=cloud-func.jar
 export BIN_PATH=$(cd `dirname $0`;pwd)
 echo BIN_PATH:[$BIN_PATH]
