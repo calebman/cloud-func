@@ -76,6 +76,28 @@
                     <skipTests>true</skipTests>
                 </configuration>
             </plugin>
+            <!-- 指定main函数 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>1.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>com.cloudfunc.Bootstrap</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <!--移动并重命名jar包-->
             <plugin>
                 <artifactId>maven-antrun-plugin</artifactId>
@@ -88,7 +110,8 @@
                         </goals>
                         <configuration>
                             <target>
-                                <move file="${project.basedir}/target/${project.artifactId}-${project.version}.${project.packaging}" tofile="${project.basedir}/../bin/${project.artifactId}.${project.packaging}"/>
+                                <move file="${project.basedir}/target/${project.artifactId}-${project.version}.${project.packaging}"
+                                      tofile="${project.basedir}/../bin/${project.artifactId}.${project.packaging}"/>
                             </target>
                         </configuration>
                     </execution>

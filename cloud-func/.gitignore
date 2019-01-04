@@ -34,7 +34,3 @@ selenium-debug.log
 *.ntvs*
 *.njsproj
 *.sln
-# Package directories and files
-*.tar
-traffic-industry/html/static/
-industry-server/*.jar
