@@ -12,7 +12,7 @@
         </constructor-arg>
     </bean>
 
-    <!-- 构造处理分发器 -->
+    <!-- 构造请求分发器 -->
     <bean id="cftpHandler" class="com.cloudfunc.CftpHandler">
         <property name="handlerAdapterList">
             <list>
